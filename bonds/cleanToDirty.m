@@ -1,8 +1,8 @@
-function Bd = cleanToDirty(Bc, N, k, m, Tp)
+function Pd = cleanToDirty(Pc, N, k, m, Tp)
 
 %CLEANTODIRTY Returns the dirty price given the clean price
 
-Bd = Bc + (1-Tp)*k*N/m;
+Pd = Pc + (1-Tp)*k*N/m;
 
 end
 
