@@ -3,26 +3,22 @@ clc
 [num, txt, raw] = xlsread('data.xlsx', 'SNAP');
 %% set parameters
 N = 100;
-timeError = 693960;
 
 ric = raw(2:99,2);
-quoteDate = timeError + cell2mat(raw(2:99,3));
-issueDate = timeError + cell2mat(raw(2:99,5));
-settleDate = timeError + cell2mat(raw(2:99,6));
-maturityDate = timeError + cell2mat(raw(2:99,7));
-nextCouponDate = timeError + cell2mat(raw(2:99,13));
-
-
+quoteDate = cell2mat(raw(2:99,3))
+dateNum(
 k = 0.08;
 m = 2;
 y = 0.06;
 T = 5;    %dummy variable
 n = m*T;
 
-
+tradeDate       = datenum("2018-11-01");
+maturityDate    = datenum("2028-05-09");
 lastPaymentDate = datenum("2018-10-01");
+nextPaymentDate = datenum("2019-04-01");
 
-Tp = (nextCouponDate - settleDate)/(nextCouponDate - lastPaymentDate); %act/X
+Tp = (nextPaymentDate - tradeDate)/(nextPaymentDate - lastPaymentDate); %act/X
 %%
 Pd = dirtyBondPrice(N, k, m, y, n, Tp);
 Pc = cleanBondPrice(N, k, m, y, n, Tp);
