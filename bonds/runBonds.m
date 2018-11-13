@@ -3,6 +3,7 @@ clearvars
 clc
 [num, txt, raw] = xlsread('data.xlsx', 'SNAP');
 %% set parameters
+clc
 faceValue   = 100;
 timeError   = 693960;
 
@@ -22,19 +23,28 @@ modDuration     = cell2mat(raw(2:99,15));
 convexity       = cell2mat(raw(2:99,16));
 currency        = raw(2:99,17);
 dayCountRef     = raw(2:99,18);
-%% calculate parameters
-couponPaymentsPerYear   = couponFreqNum(couponFreq);
-accruedTime             = accruedTime(quoteDate, nextCouponDate, couponPaymentsPerYear);
-%%
 
+% calculate parameters
+couponFreq          = couponFreqNum(couponFreq);
+remainingCoupons    = remainingCouponsNum(quoteDate, maturityDate, couponFreq);
+accruedTime         = accruedTimeNum(quoteDate, nextCouponDate, couponFreq); %%settle or quote?
+
+disp('Parameters set.');
+%%
+n = length(ric);
+P = zeros(n,1);
+for i = 1:n
+    P(i) = dirtyBondPrice(faceValue, coupon(i), couponFreq(i), yAsk(i), remainingCoupons(i), accruedTime(i));
+end
+%%
 % Pd = dirtyBondPrice(N, k, m, y, n, Tp);
 k = coupon(1)
 n = 1
-m = couponPaymentsPerYear(1)
+m = couponFreq(1)
 y = yAsk(1)
-Tp = accruedTime(1)
+Tp = (4*30 - 2)/360%accruedTime(1)
 PcAsk = cleanBondPrice(faceValue, k, m, y, n, Tp)
-
+Pask(1)
 % [D, Dm, C] = bondDurationConvexity(N, k, m, y, n, Tp);
 
 
