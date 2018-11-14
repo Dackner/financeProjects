@@ -42,10 +42,9 @@ disp('Priced.');
 YTM = zeros(n,1);
 Pdirty = zeros(n,1);
 for i = 1:n
-   Pdirty(i) = cleanToDirty(Pbid(i), faceValue, coupon(i), couponFreq(i), accruedTime(i));
-   YTM(i) = yieldToMaturity(faceValue, coupon(i), couponFreq(i), remainingCoupons(i),accruedTime(i), Pdirty(i));
+   Pdirty(i) = cleanToDirty(Pbid(i), faceValue, coupon, couponFreq, accruedTime);
+   YTM(i) = yieldToMaturity(Pdirty)
 end
-disp('Quoted YTM');
 %%
 
 %TODO: 

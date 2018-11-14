@@ -22,20 +22,12 @@ ind4    = (Tp==4);   %Act/365
 
 %30E/360
 dm = month(tc) - month(ts); ind = (dm<0); dm(ind) = dm(ind) + 12;
-dd = day(tc) - day(ts);
-Tp(ind1) = m(ind1).*( 30*dm(ind1) + dd(ind1) )./360;
-clearvars dm dd ind;
+dd = day(tc) - day(
+    
 
-%Act/360
-Tp(ind2) = m(ind2).*( tc(ind2) - ts(ind2) )./360;
+Tp(ind1) = m(ind1).*( tc(ind1)-ts(ind1) )./360;
 
-%Act/365 and Act/Act (approx)
-Tp(ind3) = m(ind3).*( tc(ind3) - ts(ind3) )./365;
-Tp(ind4) = m(ind4).*( tc(ind4) - ts(ind4) )./365;
-
-%Coupon paid before settle date...
-negInd      = (Tp < 0);
-Tp(negInd)  = 1;
+% ind1 + ind2 + ind3 + ind4
 
 end
 
