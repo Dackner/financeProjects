@@ -5,7 +5,7 @@ if (~exist('dates', 'var') || ~exist('ric', 'var') || ~exist('prices', 'var')) %
 end
 
 %datestr(dates) % Command to convert numerical dates to string
-%semilogy(dates, values); % Plot historical prices on a logarithmic scale
+% semilogy(dates, values); % Plot historical prices on a logarithmic scale
 %datetick('x','yyyy')     % Change x-axis to dates
 
 nLastDates = 1000;
@@ -18,7 +18,8 @@ initialHolding = zeros(1, nAssets + 1);
 initialHolding(1, nAssets + 1) = 1; % Only cash
 
 transCost = 0.001;             % Transaction cost that is paid
-transCostSP = transCost*1.0;   % Transaction cost used in the simulation
+s = 1.0;
+transCostSP = transCost*s;   % Transaction cost used in the simulation
 
 
 tSim = 1/252;
@@ -71,7 +72,8 @@ dateHistory(i) = dates(nDates);
 
 % Use an equally weighted portfolio as "index" (note that no transaction costs are paid)
 equalWeights = 1/nAssets*ones(nAssets,1);
-returns = log(values(2:end,:)./values(1:end-1,:));
+% returns = log(values(2:end,:)./values(1:end-1,:));
+returns = log(prices(2:end,:)./prices(1:end-1,:));
 wealthHistoryIndex = (exp(cumsum(returns(nDates-nLastDates-1:nDates-1,:))) * equalWeights)';
 
 wealthHistory(i) = wealth;

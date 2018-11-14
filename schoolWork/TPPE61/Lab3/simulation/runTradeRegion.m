@@ -1,4 +1,5 @@
-if (~exist('dates', 'var') || ~exist('ric', 'var') || ~exist('prices', 'var')) % Only load data once
+% if (~exist('dates', 'var') || ~exist('ric', 'var') || ~exist('prices', 'var')) % Only load data once
+if (~exist('dates', 'var') || ~exist('ric', 'var') || ~exist('values', 'var')) % Only load data once
   [dates, ric, values] = loadExcelFile('sharePrices.xlsx', 'Sheet1');
 end
 
