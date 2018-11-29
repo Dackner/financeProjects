@@ -3,7 +3,7 @@ clear
 [num,txt,raw] = xlsread('data', 'snap');
 
 %% 
-close all
+% close all
 
 Sraw    = cell2mat(raw(2:6785, 2:6));
 [N,M]   = size(Sraw);
@@ -16,11 +16,12 @@ S(Sraw==0)  = 10^-10;
 % define state model
 scaleQ  = 1;
 Q       = scaleQ*eye(M);    %model noise
-x       = zeros(N,M)';      %state variables
+x       = zeros(N,M)';      %state variables to be estimated
 
-scaleR  = 10000;
+scaleR  = 1;
 z       = diff(log(S))';    %observed states
-R       = scaleR*cov(z');   %measurement noise
+% R       = scaleR*cov(z');   %measurement noise
+R       = scaleR*corr(z'); 
 
 %For saving P
 P = cell(N,1);
@@ -63,7 +64,7 @@ for k = 1:N-1
 end
 
 %% Plot log-returns
-figure(1)
+figure
 hold on;
 plot(z(1,:)');
 plot(x(1,:)');
@@ -103,3 +104,48 @@ plot(xs(5,:)');
 legend('Raw', 'Filtered', 'Smoothed');
 hold off;
 
+%% Plot prices
+close all
+SS = logRetToPrices(S(1,:), z);
+SSf = logRetToPrices(S(1,:), x);
+SSs = logRetToPrices(S(1,:), xs);
+
+figure
+hold on;
+plot(SS(1,:)');
+plot(SSf(1,:)');
+plot(SSs(1,:)');
+legend('Raw', 'Filtered', 'Smoothed');
+hold off;
+
+figure
+hold on;
+plot(SS(2,:)');
+plot(SSf(2,:)');
+plot(SSs(2,:)');
+legend('Raw', 'Filtered', 'Smoothed');
+hold off;
+
+figure
+hold on;
+plot(SS(3,:)');
+plot(SSf(3,:)');
+plot(SSs(3,:)');
+legend('Raw', 'Filtered', 'Smoothed');
+hold off;
+
+figure
+hold on;
+plot(SS(4,:)');
+plot(SSf(4,:)');
+plot(SSs(4,:)');
+legend('Raw', 'Filtered', 'Smoothed');
+hold off;
+
+figure
+hold on;
+plot(SS(5,:)');
+plot(SSf(5,:)');
+plot(SSs(5,:)');
+legend('Raw', 'Filtered', 'Smoothed');
+hold off;
