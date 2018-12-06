@@ -2,7 +2,7 @@ if (~exist('dates', 'var')) % Only load data once
   [dates, ric, prices] = loadExcelFile('sharePrices.xlsx', 'Sheet1');
 end
 clc
-% rng('default'); % Reset random number generator
+rng('default'); % Reset random number generator
 
 dt = 1/252;          % Time between each data in historical data
 t = 1/12;            % Time for Monte-Carlo simulations
@@ -22,7 +22,7 @@ lambda = 0.95;
 r = 0.05;
 gamma = 0;
 
-[nu] = estExpected(returnDates, logReturns, dt, curDate, estPeriodMu); %changed here (this is mu)
+[nu] = estExpected(returnDates, logReturns, dt, curDate, estPeriodMu); 
 [sigma, corr] = estVolEWMA(returnDates, logReturns, dt, curDate, estPeriodVol, lambda);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,11 +49,11 @@ for i = 1:n
   fprintf('%10s %10.2f%% %10.2f%% %10.2f%%\n', ric{i}, nu(i)*100, nu_(i)*100/t, w(i)*100);
 end
 %%
-close all
+% close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %optimistic with optimized solution from SP
-Nubd = 10;
+Nubd = 100;
 wAll = zeros(n, Nubd);
 ubdAll = zeros(Nubd,1);
 for i=1:Nubd
@@ -64,7 +64,7 @@ for i=1:Nubd
 end
 
 %pessimistic accepted solution in original target function
-Nlbd = 10;
+Nlbd = 100;
 nSampleslbd = 10000;
 w = mean(wAll,2);   %% accepted solution
 lbdAll = zeros(Nlbd,1);

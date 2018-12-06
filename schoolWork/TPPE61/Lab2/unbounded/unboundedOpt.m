@@ -1,3 +1,4 @@
+
 function [w, obj] = unboundedOpt(scenarioReturns, R, gamma)
 
 % Matrix computation of gradient and hessian (to improve speed)
@@ -29,8 +30,8 @@ while norm(grad) > eps
     H = p*A'*(repmat(U(:,3), 1, n).*A);
     
     %print info
-%     It = It + 1;
-%     [It,obj];
+    %     It = It + 1;
+    %     [It,obj];
     
     %perform newton step
     s = -H\grad;
@@ -39,7 +40,7 @@ while norm(grad) > eps
     lambda = updateLambda(A, w, R, s, beta);
     w = w + lambda*s;
     
-   
+    
 end
 
 end

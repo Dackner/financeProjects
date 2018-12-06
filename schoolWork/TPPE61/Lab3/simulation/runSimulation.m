@@ -18,15 +18,14 @@ initialHolding = zeros(1, nAssets + 1);
 initialHolding(1, nAssets + 1) = 1; % Only cash
 
 transCost = 0.001;             % Transaction cost that is paid
-s = 1.0;
+s = 1;
 transCostSP = transCost*s;   % Transaction cost used in the simulation
-
 
 tSim = 1/252;
 
 dt = 1/252;          % Time between each data in historical data
 t = 1/12;            % Time for Monte-Carlo simulations
-nSamples = 100;      % Number of scenarios in Monte-Carlo
+nSamples = 1000;      % Number of scenarios in Monte-Carlo
 interestRate = 0.02;
 marketExcessPremium = 0.02;
 objGamma = 0;

@@ -34,8 +34,8 @@ title('QQ plot of standardized logarithmic returns');
 % GARCH model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% [xOpt, ll] = mlGARCH(r,dt, @likelihoodNormal); %@likelihoodStudentst to test extra exercise 
-[xOpt, ll] = mlGARCH(r,dt, @likelihoodStudentst);
+[xOpt, ll] = mlGARCH(r,dt, @likelihoodNormal); %@likelihoodStudentst to test extra exercise 
+% [xOpt, ll] = mlGARCH(r,dt, @likelihoodStudentst);
 
 logLikelihood = sum(ll); 
 
@@ -57,7 +57,7 @@ elseif length(xOpt) == 5 % For the extra assignment Extra
     title('QQ plot GARCH(1,1) normalized returns using StudentsT distribution'); 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Exercise
 % Determine for both historical data and implied from GARCH the average return and the volatility:
 % avgReturnHist, volHist, avgReturnImplied and volImplied 
@@ -204,7 +204,7 @@ for i=1:m
 end
 fprintf('%15s', 'Log likelihood');
 fprintf('%12s', 'nu'); fprintf('%12s', 'beta0'); fprintf('%12s', 'beta1'); fprintf('%12s', 'beta2');
-fprintf('%12s', 'alpha0'); fprintf('%12s\n', 'alpha0');
+fprintf('%12s', 'alpha0'); fprintf('%12s\n', 'alpha1');
 for i=1:m
   fprintf('%15f', fAll(i));
   for j=1:n
@@ -246,7 +246,7 @@ fprintf('%30s %20f %20f\n', 'Test statistic', testStatistic, normcdf(testStatist
 
 %%
 %studts
-
+return
 %GARCH
 
     %insample

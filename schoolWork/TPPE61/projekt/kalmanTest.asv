@@ -2,7 +2,7 @@
 clear
 [num,txt,raw] = xlsread('data', 'snap');
 
-%%
+%% 
 % close all
 
 Sraw    = cell2mat(raw(2:6785, 2:6));
@@ -10,20 +10,19 @@ Sraw    = cell2mat(raw(2:6785, 2:6));
 N       = N-1; %only returns.
 
 % fix data preliminary
-S               = Sraw;
-S(Sraw == 0)    = NaN;
-sNotNaN         = S( sum( isnan( S ), 2 ) == 0, : ); %to be used for R = var(z)
+S           = Sraw;
+S(Sraw==0)  = NaN;
 
 % define state model
 scaleQ  = 1;
 Q       = scaleQ*eye(M);    %model noise
 x       = zeros(N,M)';      %state variables to be estimated
 
-scaleR  = 10000;
+scaleR  = 100;
 z       = diff(log(S))';    %observed states
 % R       = scaleR*cov(z');   %measurement noise
-% R       = scaleR*corr(z');
-R       = scaleR*diag( var( ( diff( log( sNotNaN ) )' )' ) ); % 
+% R       = scaleR*corr(z'); 
+R       = scaleR*diag(var(z'));
 %For saving P
 P = cell(N,1);
 
@@ -31,27 +30,24 @@ P = cell(N,1);
 x(:,1)  = z(:,1);
 P{1}    = eye(M);
 
-for t = 2:N
-    
+for t = 2:N 
+   
     %predict
     xHat = x(:,t-1);
     PHat = P{t-1} + Q;
     
-    %update (only if not nan) otherwise just predict
-    if sum(isnan(z(:,t))) == 0
-        
-        v       = z(:,t) - xHat;
-        K       = PHat*inv( PHat + R );
-        x(:,t)  = xHat + K*v;
-        P{t}    = PHat - K*( PHat + R )*K';
-
+    %update (only if not nan)
+    if sum(isnan(z(:,t))) == 0 
+    v       = z(:,t) - xHat;
+    K       = PHat*inv( PHat + R );
+    x(:,t)  = xHat + K*v;
+    P{t}    = PHat - K*( PHat + R )*K';
+    disp(t)
     else
         
-        x(:,t)  = xHat;
-        P{t}    = PHat;
         
     end
-    disp(t)
+    
 end
 
 %smoothing parameters
@@ -116,8 +112,6 @@ hold off;
 
 %% Plot prices
 close all
-z(isnan(z)) = 0;
-
 SS = logRetToPrices(S(1,:), z);
 SSf = logRetToPrices(S(1,:), x);
 SSs = logRetToPrices(S(1,:), xs);

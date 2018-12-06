@@ -22,7 +22,9 @@ marketCapWeight = ones(n,1)/n;
 
 [nuCAPM] = estExpectedCAPM(C, marketExcessPremium, interestRate, marketCapWeight);
 [nu] = estExpectedBlackLitterman(nuCAPM, C*0.1, eye(n), nuHist, C);
-
+% nuCAPM
+% nuHist
+% nu
 [scenarioPrices] = genScenariosLatin(nu, sigma, corr, t, nSamples);
 
 % estStatistics(nu, sigma, corr, t, log(scenarioPrices));
