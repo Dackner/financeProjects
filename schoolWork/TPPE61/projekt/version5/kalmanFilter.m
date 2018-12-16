@@ -1,5 +1,6 @@
-function [ xs, xSs ] = kalmanFilter( S )
-%kalmanFilter Trello: 0. Returns Kalman-smoothed logarithmic returns xs and prices xSs
+function [ rK, pK ] = kalmanFilter( S )
+%kalmanFilter Trello: 0. Returns Kalman-smoothed logarithmic returns rK and
+%prices pK
 %   In-parameter S(i,j) is raw asset prices in ascending time sequence for
 %   timestamps i and assets j.
 
@@ -67,7 +68,10 @@ for k = 1:N-1
     
 end
 
-xSs = logRetToPrices(S(1,:), xs);
+xSs = logRetToPricesForKalman(S(1,:), xs);
+
+rK = xs.';
+pK = xSs.';
 
 end
 % end

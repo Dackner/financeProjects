@@ -1,5 +1,6 @@
-function [ xs, xSs ] = kalmanFilter( S )
-%kalmanFilter Trello: 0. Returns Kalman-smoothed logarithmic returns xs and prices xSs
+function [ rK, pK ] = kalmanFilter( S, scaleQ, scaleR )
+%kalmanFilter Trello: 0. Returns Kalman-smoothed logarithmic returns rK and
+%prices pK
 %   In-parameter S(i,j) is raw asset prices in ascending time sequence for
 %   timestamps i and assets j.
 
@@ -10,11 +11,11 @@ N = N -1; %only retiurns
 sNotNaN         = S( sum( isnan( S ), 2 ) == 0, : ); %to be used for R = var(z)
 
 % define state model
-scaleQ  = 1E-4;
+%scaleQ  = 1E-4;
 Q       = scaleQ*eye(M);    %model noise
 x       = zeros(N,M)';      %state variables to be estimated
 
-scaleR  = 1E1;
+%scaleR  = 1E1;
 z       = diff(log(S))';    %observed states
 % R       = scaleR*cov(z');   %measurement noise
 % R       = scaleR*corr(z');
@@ -67,7 +68,10 @@ for k = 1:N-1
     
 end
 
-xSs = logRetToPrices(S(1,:), xs);
+xSs = logRetToPricesForKalman(S(1,:), xs);
+
+rK = xs.';
+pK = xSs.';
 
 end
 % end
